@@ -63,6 +63,9 @@ body {
   flex-direction: column;
   align-items: center; /* center VISA under DEBIT */
   gap: 6px;
+  max-width: 120px; /* prevent the brand block from growing too large */
+  /* constrain width relative to the card so SVG scales predictably */
+  width: clamp(64px, 16%, 120px);
 }
 .card-brand-debit {
   font-size: 0.72rem;
@@ -76,7 +79,28 @@ body {
   display: inline-block;
   line-height: 1;
 }
-.card-brand-visa svg { width: clamp(48px, 14vw, 88px); height: auto; display: block; }
+.card-brand-visa svg { width: 100%; height: auto; display: block; }
+
+/* Make sure card text and logo scale nicely on narrow/mobile viewports */
+@media (max-width: 420px) {
+  .fake-card { width: calc(94vw); height: calc(94vw * 0.62); }
+  .card-name { font-size: 1rem; }
+  .card-num { font-size: 1.05rem; letter-spacing: 2px; }
+  .card-brand-debit { font-size: 0.66rem; }
+  /* constrain the logo to be a percentage of the card width (not viewport) */
+  .card-brand { max-width: 86px; }
+  .card-brand { width: clamp(56px, 18%, 86px); }
+  .card-brand-visa svg { width: 100%; max-width: 86px; }
+}
+
+/* Extra small phones: keep things compact */
+@media (max-width: 360px) {
+  .card-name { font-size: 0.96rem; }
+  .card-num { font-size: 1rem; letter-spacing: 1.8px; }
+  .card-brand { max-width: 72px; }
+  .card-brand { width: clamp(48px, 18%, 72px); }
+  .card-brand-visa svg { width: 100%; }
+}
 
 @media (max-width: 380px) {
   .card-brand-visa { font-size: 1.2rem; }

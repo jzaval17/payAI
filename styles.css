@@ -26,6 +26,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative;
 }
 
 .card-chip {
@@ -50,6 +51,36 @@ body {
   font-size: 1.25rem;
   letter-spacing: 3px;
   color: rgba(255,255,255,0.9);
+}
+
+/* Card brand (DEBIT / VISA) on the right side */
+.card-brand {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center VISA under DEBIT */
+  gap: 6px;
+}
+.card-brand-debit {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.95);
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+.card-brand-visa {
+  margin-top: 0;
+  display: inline-block;
+  line-height: 1;
+}
+.card-brand-visa svg { width: clamp(48px, 14vw, 88px); height: auto; display: block; }
+
+@media (max-width: 380px) {
+  .card-brand-visa { font-size: 1.2rem; }
+  .card-brand-debit { font-size: 0.68rem; }
 }
 
 /* Receipt page styles */
@@ -254,11 +285,16 @@ body {
 .fake-card {
   animation: slideInCard 0.6s ease-out forwards;
   transform-style: preserve-3d;
+  /* Use transition for transform so later class toggles animate smoothly without starting a new CSS animation */
+  transition: transform 0.58s cubic-bezier(.2,.9,.3,1), box-shadow 0.58s cubic-bezier(.2,.9,.3,1);
 }
 
 .fake-card.tilt {
-  animation: tiltCard 0.6s cubic-bezier(.2,.9,.3,1) forwards;
+  /* Apply a transform-based tilt so it uses the transition above instead of a separate animation */
   transform-origin: center;
+  will-change: transform;
+  transform: translateY(-6px) scale(1.03) rotateX(6deg) rotateY(2deg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.55);
 }
 
 /* Pop the chip when the card is tapped */

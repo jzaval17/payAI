@@ -4,6 +4,23 @@ const overlayAmount = document.getElementById('overlay-amount');
 const card = document.querySelector('.fake-card');
 const confettiContainer = overlay.querySelector('.confetti');
 
+// Prevent the entrance animation from replaying on subsequent DOM changes.
+// When the initial 'slideInCard' animation ends, turn off the animation property so
+// later class toggles (tilt, ripple) won't cause the card to 'load up' again.
+window.addEventListener('load', () => {
+  if (!card) return;
+  const onAnimEnd = (e) => {
+    try {
+      if (e && e.animationName === 'slideInCard') {
+        card.style.animation = 'none';
+      }
+    } catch (err) {
+      // ignore
+    }
+  };
+  card.addEventListener('animationend', onAnimEnd, { once: true });
+});
+
 let audio;
 function playChaChing() {
   if (!audio) {
@@ -79,7 +96,7 @@ function launchConfetti() {
   }
 }
 
-function showOverlay(amount = '$20.00') {
+function showOverlay(amount = '$50.00') {
   overlayAmount.textContent = amount;
   overlay.hidden = false;
   launchConfetti();

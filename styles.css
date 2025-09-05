@@ -65,9 +65,14 @@ body {
   animation: pulse 1.5s infinite ease-in-out;
 }
 .contactless-img {
-  width: 80%;
-  height: 80%;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
   object-fit: contain;
+  background: transparent;
 }
 .hold-text {
   margin-top: 0.5rem;
@@ -176,11 +181,6 @@ body {
   animation: tiltCard 0.6s ease-in-out;
 }
 
-.contactless-icon {
-  /* Larger contactless icon for better visibility (duplicate rule kept in sync) */
-  font-size: 4rem;
-  animation: pulse 1.5s infinite ease-in-out;
-}
 
 .overlay-content {
   animation: slideUpOverlay 0.4s ease-out forwards;

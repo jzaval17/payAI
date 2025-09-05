@@ -50,6 +50,21 @@ body {
   color: rgba(255,255,255,0.9);
 }
 
+/* Receipt page styles */
+.receipt-page { background: #000; color: #fff; font-family: inherit; }
+.receipt-header { height: 56px; display:flex; align-items:center; padding: 0 12px; }
+.receipt-back { background: transparent; border: none; color: white; width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; }
+.receipt-main { padding: 12px 18px; }
+.receipt-amount { font-size: 48px; font-weight: 800; text-align:center; margin-top:12px; }
+.receipt-subtitle { text-align:center; opacity:0.85; margin-top:6px; }
+.receipt-datetime { text-align:center; opacity:0.7; margin-top:6px; font-size:0.9rem; }
+.receipt-card { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 12px; margin-top: 20px; }
+.receipt-row { display:flex; justify-content:space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.receipt-row.small { font-size: 0.95rem; }
+.receipt-label { opacity: 0.8; }
+.receipt-value { font-weight: 600; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; font-size: 0.95rem; }
+
 .hold-near {
   text-align: center;
   margin-top: 36px;

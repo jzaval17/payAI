@@ -14,6 +14,27 @@ function playChaChing() {
   audio.play().catch(err => console.error('Audio play failed:', err));
 }
 
+// Play the chime and wait until it ends or until a minimum time (ms) elapses.
+// This prevents navigation from cutting the sound short.
+function playChaChingAndWait(minMs = 600) {
+  if (!audio) audio = new Audio('assets/sounds/payment.mp3');
+  audio.currentTime = 0;
+  const playPromise = audio.play().catch(err => {
+    console.error('Audio play failed:', err);
+    return Promise.resolve();
+  });
+
+  return playPromise.then(() => {
+    return new Promise((resolve) => {
+      let resolved = false;
+      const finish = () => { if (!resolved) { resolved = true; resolve(); } };
+      audio.addEventListener('ended', finish, { once: true });
+      // Minimum timeout as a fallback for very short audio or mobile autoplay behaviour
+      setTimeout(finish, minMs);
+    });
+  });
+}
+
 function launchConfetti() {
   confettiContainer.innerHTML = '';
   for (let i = 0; i < 20; i++) {
@@ -52,10 +73,21 @@ function triggerTilt() {
   }, { once: true });
 }
 
-function handleTap() {
+async function handleTap() {
   triggerTilt();
-  playChaChing();
-  setTimeout(() => showOverlay(), 400); // delay to match tilt
+  // Play sound and wait for it (or for min timeout) before navigating so it's not cut off
+  try {
+    await playChaChingAndWait(700);
+  } catch (e) {
+    // ignore and continue
+  }
+
+  // After sound/animation, navigate to receipt
+  const amount = '$20.00';
+  const txid = Math.random().toString(36).slice(2, 12);
+  const params = new URLSearchParams({ amount, status: 'Cleared', id: txid });
+  // Use replace so the receipt doesn't remain in history stack
+  location.replace('receipt.html?' + params.toString());
 }
 
 tapArea.addEventListener('click', handleTap);

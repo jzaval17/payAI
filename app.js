@@ -68,8 +68,21 @@ function hideOverlay() {
 
 function triggerTilt() {
   card.classList.add('tilt');
+  // Add a ripple effect on the chip for visual feedback
+  const chip = card.querySelector('.card-chip');
+  let ripple;
+  if (chip) {
+    ripple = document.createElement('div');
+    ripple.className = 'chip-ripple';
+    chip.appendChild(ripple);
+  }
+
   card.addEventListener('animationend', () => {
     card.classList.remove('tilt');
+    if (ripple && ripple.parentNode) {
+      // let the animation finish then remove
+      setTimeout(() => ripple.remove(), 500);
+    }
   }, { once: true });
 }
 

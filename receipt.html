@@ -57,10 +57,17 @@
     const now = new Date();
     dtEl.textContent = now.toLocaleString();
 
-    // Back button: replace history so receipt doesn't remain in back stack
-    document.getElementById('receipt-back').addEventListener('click', () => {
-      // Replace to clear receipt page from history
-      location.replace('index.html');
+    // Back button: animate then replace history so receipt doesn't remain in back stack
+    const backBtn = document.getElementById('receipt-back');
+    backBtn.addEventListener('click', () => {
+      // Prevent double clicks
+      backBtn.disabled = true;
+      // Play a small slide-and-fade animation before navigating
+      backBtn.classList.add('back-animate');
+      // Wait for animation to complete (match CSS duration) then navigate
+      setTimeout(() => {
+        location.replace('index.html');
+      }, 260); // matches CSS animation time
     });
 
     // If user presses browser back, ensure we go to index and not keep receipt

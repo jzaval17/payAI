@@ -9,6 +9,7 @@ let CACHE_NAME = 'prankpay-' + Date.now();
 const ASSETS = [
   './',
   './index.html',
+  './offline.html',
   './styles.css',
   './app.js',
   './manifest.json',
@@ -67,30 +68,35 @@ self.addEventListener('fetch', (event) => {
 
   // For navigation requests, serve index.html from cache fallback to network
   if (event.request.mode === 'navigate') {
+    // Network-first for navigation: try network, fallback to cached index.html or offline.html
     event.respondWith(
-      caches.match('./index.html').then((cached) => {
-        return cached || fetch(event.request).then((networkResp) => {
-          // Cache a copy of index.html for future navigations
+      fetch(event.request).then((networkResp) => {
+        // Cache a copy of index.html if we fetched successfully
+        if (networkResp && networkResp.status === 200) {
           caches.open(CACHE_NAME).then((cache) => cache.put('./index.html', networkResp.clone()));
-          return networkResp;
-        }).catch(() => caches.match('./index.html'));
+        }
+        return networkResp;
+      }).catch(() => {
+        return caches.match('./index.html').then((cached) => cached || caches.match('./offline.html'));
       })
     );
     return;
   }
 
-  // For other requests, try cache first, then network, and cache successful responses
+  // For other requests: stale-while-revalidate — serve cache if available, fetch network and update cache
   event.respondWith(
     caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((networkResp) => {
-        if (!networkResp || networkResp.status !== 200) return networkResp;
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResp.clone()));
+      const networkFetch = fetch(event.request).then((networkResp) => {
+        if (networkResp && networkResp.status === 200) {
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResp.clone()));
+        }
         return networkResp;
-      }).catch(() => {
-        // Optionally return a fallback image for images
+      }).catch(() => null);
+
+      // Return cached response if present, otherwise wait for network; if both fail, provide fallbacks
+      return cached || networkFetch.then(resp => resp).catch(() => {
         if (event.request.destination === 'image') return caches.match('./assets/images/nfcpay.png');
-        return new Response('Offline', { status: 503, statusText: 'Offline' });
+        return caches.match('./offline.html') || new Response('Offline', { status: 503, statusText: 'Offline' });
       });
     })
   );

@@ -275,8 +275,10 @@ body {
 
 /* Card entrance */
 @keyframes slideInCard {
-  from { transform: translateY(50px) scale(0.95); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+  /* start well above the viewport so the card appears to come out from the top */
+  from { transform: translateY(-120vh) scale(0.98); opacity: 0; }
+  60% { transform: translateY(12px) scale(1.01); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 /* Card tilt */

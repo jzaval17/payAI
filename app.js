@@ -124,3 +124,32 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+// PWA install prompt handling
+let deferredPrompt;
+const installBtn = document.getElementById('install-btn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show the install button
+  if (installBtn) {
+    installBtn.hidden = false;
+    installBtn.setAttribute('aria-hidden', 'false');
+  }
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    // Show the browser install prompt
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    console.log('User choice for install:', choice);
+    // Hide the install button after prompt
+    installBtn.hidden = true;
+    installBtn.setAttribute('aria-hidden', 'true');
+    deferredPrompt = null;
+  });
+}

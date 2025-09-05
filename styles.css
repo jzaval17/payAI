@@ -71,10 +71,30 @@ body {
 .receipt-subtitle { text-align:center; opacity:0.85; margin-top:6px; }
 .receipt-datetime { text-align:center; opacity:0.7; margin-top:6px; font-size:0.9rem; }
 .receipt-card { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 12px; margin-top: 20px; }
-.receipt-row { display:flex; justify-content:space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
-.receipt-row.small { font-size: 0.95rem; }
+.receipt-row { display:flex; justify-content:space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); align-items: center; }
+.receipt-row.small { font-size: 0.95rem; flex-wrap: wrap; align-items: flex-start; }
 .receipt-label { opacity: 0.8; }
-.receipt-value { font-weight: 600; }
+.receipt-value { font-weight: 600; word-break: break-word; white-space: normal; overflow-wrap: anywhere; }
+
+/* For compact rows (note, tx id) allow label to occupy a fixed portion and value to wrap */
+.receipt-row.small .receipt-label { flex: 0 0 30%; padding-right: 8px; box-sizing: border-box; }
+.receipt-row.small .receipt-value { flex: 1 1 68%; text-align: left; }
+
+/* On narrow screens, stack label above value so long notes wrap naturally */
+@media (max-width: 420px) {
+  .receipt-row.small {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .receipt-row.small .receipt-label {
+    flex: none;
+    margin-bottom: 6px;
+  }
+  .receipt-row.small .receipt-value {
+    flex: none;
+    width: 100%;
+  }
+}
 .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; font-size: 0.95rem; }
 
 .hold-near {

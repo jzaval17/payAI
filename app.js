@@ -19,6 +19,9 @@ function playChaChing() {
 function playChaChingAndWait(minMs = 600) {
   if (!audio) audio = new Audio('assets/sounds/payment.mp3');
   audio.currentTime = 0;
+  // Hint to browser to preload audio where possible
+  audio.preload = 'auto';
+  // Try to play; if play() is rejected (autoplay policy), resolve immediately.
   const playPromise = audio.play().catch(err => {
     console.error('Audio play failed:', err);
     return Promise.resolve();
@@ -27,10 +30,39 @@ function playChaChingAndWait(minMs = 600) {
   return playPromise.then(() => {
     return new Promise((resolve) => {
       let resolved = false;
-      const finish = () => { if (!resolved) { resolved = true; resolve(); } };
+      const finish = () => { if (!resolved) { resolved = true; cleanup(); resolve(); } };
+      const cleanup = () => {
+        audio.removeEventListener('ended', finish);
+        audio.removeEventListener('loadedmetadata', onMeta);
+        if (timeoutId) clearTimeout(timeoutId);
+      };
+
+      // If we know the duration, wait for either the ended event or until that duration completes
+      const onMeta = () => {
+        // duration may be NaN or Infinity if not available
+        const dur = Number.isFinite(audio.duration) && audio.duration > 0 ? Math.ceil(audio.duration * 1000) : null;
+        if (dur) {
+          // ensure minimum wait and small safety buffer (50-150ms)
+          const waitMs = Math.max(minMs, dur + 120);
+          timeoutId = setTimeout(finish, waitMs);
+        }
+      };
+
+      // canplaythrough is a stronger signal that audio can be played fully without buffering
+      const onCanPlay = () => {
+        if (!timeoutId) {
+          const dur = Number.isFinite(audio.duration) && audio.duration > 0 ? Math.ceil(audio.duration * 1000) : minMs;
+          timeoutId = setTimeout(finish, Math.max(minMs, dur + 120));
+        }
+      };
+
+      let timeoutId = null;
       audio.addEventListener('ended', finish, { once: true });
-      // Minimum timeout as a fallback for very short audio or mobile autoplay behaviour
-      setTimeout(finish, minMs);
+  audio.addEventListener('loadedmetadata', onMeta, { once: true });
+  audio.addEventListener('canplaythrough', onCanPlay, { once: true });
+
+      // Fallback minimum timeout in case metadata isn't available or events don't fire
+      timeoutId = setTimeout(finish, minMs + 250);
     });
   });
 }

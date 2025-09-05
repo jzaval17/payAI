@@ -15,6 +15,7 @@ const ASSETS = [
 
 self.addEventListener('install', (event) => {
   console.log('[SW] Install');
+  // Ensure the new worker installs and tells the old to skip waiting when ready
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -26,12 +27,18 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activate');
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(
-      keys.map((key) => {
-        if (key !== CACHE_NAME) return caches.delete(key);
-        return Promise.resolve();
+    caches.keys()
+      .then((keys) => Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) return caches.delete(key);
+          return Promise.resolve();
+        })
+      ))
+      .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll())
+      .then((clients) => {
+        clients.forEach((client) => client.postMessage({ type: 'SW_ACTIVATED' }));
       })
-    )).then(() => self.clients.claim())
   );
 });
 

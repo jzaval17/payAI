@@ -86,7 +86,41 @@ window.addEventListener('keydown', (e) => {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('Service worker registered from app.js:', reg.scope))
-      .catch(err => console.warn('Service worker registration failed:', err));
+      .then(reg => {
+        console.log('Service worker registered from app.js:', reg.scope);
+
+        // If there's an update installing, listen for state changes
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          console.log('Service worker update found:', newWorker);
+          newWorker.addEventListener('statechange', () => {
+            console.log('New SW state:', newWorker.state);
+            // When the new worker is installed, ask it to skip waiting
+            if (newWorker.state === 'installed') {
+              if (navigator.serviceWorker.controller) {
+                // A new update is available; tell the worker to skip waiting
+                newWorker.postMessage({ type: 'SKIP_WAITING' });
+              }
+            }
+          });
+        });
+
+      }).catch(err => console.warn('Service worker registration failed:', err));
+
+    // Listen for messages from the service worker
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (!event.data) return;
+      if (event.data.type === 'SW_ACTIVATED') {
+        console.log('Service worker activated, reloading to apply new version');
+        // Reload to allow the new service worker to control the page immediately
+        window.location.reload();
+      }
+    });
+
+    // Reload when controller changes (another safety hook)
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      console.log('Service worker controller changed, reloading page');
+      window.location.reload();
+    });
   });
 }

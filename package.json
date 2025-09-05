@@ -1,0 +1,12 @@
+{
+  "name": "parody-pay",
+  "version": "1.0.0",
+  "description": "Parody Wallet packaged as an Electron desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^25.0.0"
+  }
+}

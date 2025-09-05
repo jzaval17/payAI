@@ -1,0 +1,179 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: black;
+  color: white;
+  height: 100vh;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.card-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.fake-card {
+  width: 320px;
+  height: 200px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #2e86de, #1b4f72);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-chip {
+  width: 40px;
+  height: 30px;
+  background: gold;
+  border-radius: 4px;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+}
+.card-name {
+  font-weight: 600;
+}
+.card-num {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.hold-near {
+  text-align: center;
+  margin-top: 40px;
+}
+.contactless-icon {
+  /* Larger contactless icon for better visibility */
+  font-size: 4rem;
+  animation: pulse 1.5s infinite ease-in-out;
+  display: inline-block;
+  margin: 0 auto;
+}
+.hold-text {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.home-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  background: white;
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+.tap-area {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlay-content {
+  text-align: center;
+  animation: slideUp 0.4s ease-out forwards;
+}
+.overlay-amount {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
+@keyframes slideUp {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+/* Existing styles remain — here are the new/modified parts */
+
+/* Card entrance */
+@keyframes slideInCard {
+  from { transform: translateY(50px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Card tilt */
+@keyframes tiltCard {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  30% { transform: rotateX(8deg) rotateY(3deg); }
+  60% { transform: rotateX(-5deg) rotateY(-2deg); }
+  100% { transform: rotateX(0deg) rotateY(0deg); }
+}
+
+/* Contactless pulse */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+/* Overlay slide-up */
+@keyframes slideUpOverlay {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Confetti fall */
+@keyframes confettiFall {
+  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* Apply animations */
+.fake-card {
+  animation: slideInCard 0.6s ease-out forwards;
+  transform-style: preserve-3d;
+}
+
+.fake-card.tilt {
+  animation: tiltCard 0.6s ease-in-out;
+}
+
+.contactless-icon {
+  /* Larger contactless icon for better visibility (duplicate rule kept in sync) */
+  font-size: 4rem;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.overlay-content {
+  animation: slideUpOverlay 0.4s ease-out forwards;
+}
+
+.overlay[hidden] {
+  display: none !important;
+}
+
+
+/* Confetti pieces */
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: hsl(var(--hue), 80%, 60%);
+  animation: confettiFall 2s linear forwards;
+}

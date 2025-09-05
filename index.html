@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PrankPay — Parody Wallet</title>
   <link rel="stylesheet" href="styles.css" />
+  <!-- PWA: Web App Manifest and theme color -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1b4f72">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
   <main class="pay-screen">
@@ -24,9 +28,9 @@
     </section>
 
     <section class="hold-near">
-      <div class="contactless-icon">📶</div>
-      <p class="hold-text">Hold Near Receiver</p>
-    </section>
+<div class="contactless-icon">
+  <img src="assets/images/nfcpay.png" alt="Hold Near Reader" class="contactless-img" />
+</div>    </section>
 
     <div class="home-indicator"></div>
 
@@ -44,5 +48,27 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+    // Register service worker to enable PWA install and offline caching
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('ServiceWorker registered:', reg.scope))
+          .catch(err => console.warn('ServiceWorker registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
+
+<style>
+.contactless-icon { /* keep existing alignment/animation */
+  display: inline-block;
+}
+.contactless-img {
+  width: 48px;   /* adjust to taste */
+  height: 48px;
+  object-fit: contain;
+  display: block;
+}
+</style>

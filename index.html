@@ -12,10 +12,6 @@
 </head>
 <body>
   <main class="pay-screen">
-    <header class="status-bar">
-      <span class="time">9:41</span>
-      <div class="status-icons">📶 📡 🔋</div>
-    </header>
 
     <section class="card-area">
       <div class="fake-card">
@@ -48,16 +44,6 @@
   </div>
 
   <script src="app.js"></script>
-  <script>
-    // Register service worker to enable PWA install and offline caching
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(reg => console.log('ServiceWorker registered:', reg.scope))
-          .catch(err => console.warn('ServiceWorker registration failed:', err));
-      });
-    }
-  </script>
 </body>
 </html>
 

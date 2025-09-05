@@ -2,7 +2,10 @@
    Caches core assets on install and serves from cache when possible.
 */
 
-const CACHE_NAME = 'prankpay-v1';
+// Generate a dynamic cache name so each new service worker installation
+// gets its own cache (automatic version-busting). This ensures CSS/JS
+// changes are fetched fresh when a new SW is deployed.
+let CACHE_NAME = 'prankpay-' + Date.now();
 const ASSETS = [
   './',
   './index.html',
@@ -41,6 +44,20 @@ self.addEventListener('activate', (event) => {
       })
   );
 });
+
+// Listen for messages from the page (e.g., skip waiting)
+self.addEventListener('message', (event) => {
+  if (!event.data) return;
+  if (event.data.type === 'SKIP_WAITING') {
+    console.log('[SW] Received SKIP_WAITING message; calling skipWaiting()');
+    self.skipWaiting();
+  }
+});
+
+// Debug helper: list caches on demand
+function logCurrentCaches() {
+  caches.keys().then(keys => console.log('[SW] Current caches:', keys));
+}
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;

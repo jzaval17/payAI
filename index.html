@@ -36,10 +36,15 @@
   <!-- Overlay -->
   <div id="overlay" class="overlay" hidden>
     <div class="overlay-content" role="dialog" aria-modal="true">
-      <button id="overlay-close" class="overlay-close" aria-label="Close">✕</button>
+      <button id="overlay-close" class="overlay-close" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 6 L18 18 M6 18 L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+        </svg>
+      </button>
       <h2>Payment Received</h2>
       <p class="overlay-amount" id="overlay-amount">$20.00</p>
-      <div class="confetti"></div>
+      <p class="overlay-sender" id="overlay-sender">From: Friendly Prank</p>
+      <div class="confetti" aria-hidden="true"></div>
     </div>
   </div>
 

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PrankPay — Parody Wallet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="pay-screen">
+    <header class="status-bar">
+      <span class="time">9:41</span>
+      <div class="status-icons">📶 📡 🔋</div>
+    </header>
+
+    <section class="card-area">
+      <div class="fake-card">
+        <div class="card-chip"></div>
+        <div class="card-details">
+          <span class="card-name">Pear Platinum</span>
+          <span class="card-num">•••• 4242</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="hold-near">
+      <div class="contactless-icon">📶</div>
+      <p class="hold-text">Hold Near Receiver</p>
+    </section>
+
+    <div class="home-indicator"></div>
+
+    <div class="tap-area" id="tap-area" role="button" tabindex="0"></div>
+  </main>
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay" hidden>
+    <div class="overlay-content">
+      <h2>Payment Received</h2>
+      <p class="overlay-amount" id="overlay-amount">$20.00</p>
+      <p class="overlay-sender">From: Friendly Prank</p>
+      <div class="confetti"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

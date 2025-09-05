@@ -1,0 +1,34 @@
+# Workspace .gitignore - created by assistant
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# Build / output
+dist/
+build/
+out/
+coverage/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Misc
+*.tmp
+*.bak
+
+# Static assets (optional - keep if you check in generated files)
+# /assets/sounds/*.mp3

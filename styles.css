@@ -104,6 +104,20 @@ body {
   text-align: center;
   animation: slideUp 0.4s ease-out forwards;
 }
+.overlay-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.overlay-close:focus {
+  outline: 2px solid rgba(255,255,255,0.6);
+  border-radius: 4px;
+}
 .overlay-amount {
   font-size: 2rem;
   font-weight: bold;

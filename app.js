@@ -30,7 +30,19 @@ function showOverlay(amount = '$20.00') {
   overlayAmount.textContent = amount;
   overlay.hidden = false;
   launchConfetti();
-  setTimeout(() => overlay.hidden = true, 2000);
+  // Keep overlay visible longer and save timeout id so user can dismiss early
+  if (overlay._hideTimeout) clearTimeout(overlay._hideTimeout);
+  overlay._hideTimeout = setTimeout(() => hideOverlay(), 4000);
+}
+
+function hideOverlay() {
+  if (!overlay.hidden) {
+    overlay.hidden = true;
+  }
+  if (overlay._hideTimeout) {
+    clearTimeout(overlay._hideTimeout);
+    overlay._hideTimeout = null;
+  }
 }
 
 function triggerTilt() {
@@ -54,6 +66,20 @@ tapArea.addEventListener('keydown', (e) => {
     e.preventDefault();
     handleTap();
   }
+});
+
+// Overlay dismiss controls
+const overlayCloseBtn = document.getElementById('overlay-close');
+overlayCloseBtn.addEventListener('click', () => hideOverlay());
+
+// Click outside content closes overlay
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) hideOverlay();
+});
+
+// Escape key to close
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') hideOverlay();
 });
 
 // Register service worker for PWA (registered here instead of inline in index.html)

@@ -147,6 +147,8 @@ function triggerTilt() {
 }
 
 async function handleTap() {
+  // If settings are open, block the main tap action
+  if (typeof settingsOpen !== 'undefined' && settingsOpen) return;
   triggerTilt();
   // Play sound and wait for it (or for min timeout) before navigating so it's not cut off
   try {
@@ -304,36 +306,53 @@ amountInput.addEventListener('input', () => {
   }
 });
 
-// Ensure settings panel is hidden on load
+// State for settings
+let settingsOpen = false;
+
+// Start hidden and set aria
 settingsPanel.style.display = 'none';
+settingsPanel.setAttribute('aria-hidden', 'true');
 
-// Force hide on window load
-window.addEventListener('load', () => {
+function showSettings(event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  settingsPanel.style.display = 'flex';
+  settingsPanel.setAttribute('aria-hidden', 'false');
+  settingsBtn.setAttribute('aria-expanded', 'true');
+  settingsOpen = true;
+  const first = settingsPanel.querySelector('input, button, [tabindex]');
+  if (first) first.focus();
+}
+
+function hideSettings() {
   settingsPanel.style.display = 'none';
-});
+  settingsPanel.setAttribute('aria-hidden', 'true');
+  settingsBtn.setAttribute('aria-expanded', 'false');
+  settingsOpen = false;
+  settingsBtn.focus();
+}
 
-// Show settings
-settingsBtn.addEventListener('click', (event) => {
-  event.stopPropagation();
-  event.preventDefault();
-  settingsPanel.style.display = 'flex';
-});
-
-settingsBtn.addEventListener('touchstart', (event) => {
-  event.stopPropagation();
-  event.preventDefault();
-  settingsPanel.style.display = 'flex';
-});
-
-settingsBtn.addEventListener('pointerdown', (event) => {
-  event.stopPropagation();
-  event.preventDefault();
-  settingsPanel.style.display = 'flex';
+// Wire up openers (handle click/touch/pointer)
+['click', 'touchstart', 'pointerdown'].forEach(evt => {
+  settingsBtn.addEventListener(evt, showSettings);
 });
 
 // Close settings
-settingsClose.addEventListener('click', () => {
-  settingsPanel.style.display = 'none';
+settingsClose.addEventListener('click', hideSettings);
+settingsClose.addEventListener('keyup', (e) => { if (e.key === 'Enter') hideSettings(); });
+
+// Close on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && settingsOpen) hideSettings();
+});
+
+// Close when clicking outside the panel (but not when clicking the settings button)
+document.addEventListener('click', (e) => {
+  if (!settingsOpen) return;
+  const isInside = settingsPanel.contains(e.target) || settingsBtn.contains(e.target);
+  if (!isInside) hideSettings();
 });
 
 // Randomize amount

@@ -43,7 +43,7 @@
 
     <div class="tap-area" id="tap-area" role="button" tabindex="0"></div>
   <!-- Settings Panel -->
-  <div id="settings-panel" class="settings-panel" hidden>
+  <div id="settings-panel" class="settings-panel" aria-hidden="true" role="dialog" aria-modal="true">
     <button id="settings-close" class="settings-close" aria-label="Close Settings">×</button>
     <h3>Settings</h3>
     <label for="amount-input">Payment Amount ($):</label>
@@ -66,7 +66,7 @@
   </div>
 
   <!-- Settings Button -->
-  <button id="settings-btn" class="settings-btn" aria-label="Open Settings">⚙️</button>  </main>
+  <button id="settings-btn" class="settings-btn" aria-label="Open Settings" aria-controls="settings-panel" aria-expanded="false">⚙️</button>  </main>
 
   <!-- Overlay -->
   <div id="overlay" class="overlay" hidden>

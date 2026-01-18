@@ -441,6 +441,24 @@ body {
   z-index: 2000;
 }
 
+/* Backdrop behind settings to block taps and dim the UI */
+.settings-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1990;
+  display: none;
+}
+
+/* Open class makes panel/backdrop visible with a subtle transition */
+.settings-panel.open { display: flex; animation: fadeIn 180ms ease-out forwards; }
+.settings-backdrop.open { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .settings-panel h3 {
   margin-bottom: 20px;
 }

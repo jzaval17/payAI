@@ -306,42 +306,61 @@ amountInput.addEventListener('input', () => {
   }
 });
 
-// State for settings
+// State for settings and backdrop
 let settingsOpen = false;
+const settingsBackdrop = document.getElementById('settings-backdrop');
+
+// If the settings button exists, normalize its content to a consistent SVG and
+// move it into document.body to avoid stacking context/transform issues on iOS.
+if (settingsBtn) {
+  // Replace emoji with inline SVG for predictable scaling
+  settingsBtn.innerHTML = `
+    <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M12 8.6A3.4 3.4 0 1 0 12 15.4 3.4 3.4 0 0 0 12 8.6zm7.4 3.4c0-.4 0-.8-.1-1.2l2.1-1.6a.5.5 0 0 0 .1-.7l-2-3.4a.5.5 0 0 0-.7-.2l-2.5 1a7.7 7.7 0 0 0-1.9-1.1l-.4-2.7A.5.5 0 0 0 12.7 1h-4a.5.5 0 0 0-.5.4l-.4 2.7a7.7 7.7 0 0 0-1.9 1.1l-2.5-1a.5.5 0 0 0-.7.2l-2 3.4a.5.5 0 0 0 .1.7L4.7 9.8c0 .4-.1.8-.1 1.2s0 .8.1 1.2L2.5 13.8a.5.5 0 0 0-.1.7l2 3.4c.2.3.5.2.7.2l2.5-1c.6.5 1.3.9 1.9 1.1l.4 2.7a.5.5 0 0 0 .5.4h4a.5.5 0 0 0 .5-.4l.4-2.7c.7-.2 1.3-.6 1.9-1.1l2.5 1c.3.1.5.1.7-.2l2-3.4a.5.5 0 0 0-.1-.7l-2.1-1.6c.1-.4.1-.8.1-1.2z"/>
+    </svg>
+  `;
+  // Ensure it's appended at end of body so it sits above other content
+  if (settingsBtn.parentNode !== document.body) document.body.appendChild(settingsBtn);
+  // Make sure it has pointer events and high z-index
+  settingsBtn.style.zIndex = 10001;
+}
 
 // Start hidden and set aria
-settingsPanel.style.display = 'none';
+settingsPanel.classList.remove('open');
 settingsPanel.setAttribute('aria-hidden', 'true');
+if (settingsBackdrop) settingsBackdrop.classList.remove('open');
 
 function showSettings(event) {
   if (event) {
     event.stopPropagation();
     event.preventDefault();
   }
-  settingsPanel.style.display = 'flex';
+  settingsPanel.classList.add('open');
   settingsPanel.setAttribute('aria-hidden', 'false');
   settingsBtn.setAttribute('aria-expanded', 'true');
+  if (settingsBackdrop) settingsBackdrop.classList.add('open');
   settingsOpen = true;
   const first = settingsPanel.querySelector('input, button, [tabindex]');
   if (first) first.focus();
 }
 
 function hideSettings() {
-  settingsPanel.style.display = 'none';
+  settingsPanel.classList.remove('open');
   settingsPanel.setAttribute('aria-hidden', 'true');
   settingsBtn.setAttribute('aria-expanded', 'false');
+  if (settingsBackdrop) settingsBackdrop.classList.remove('open');
   settingsOpen = false;
   settingsBtn.focus();
 }
 
 // Wire up openers (handle click/touch/pointer)
 ['click', 'touchstart', 'pointerdown'].forEach(evt => {
-  settingsBtn.addEventListener(evt, showSettings);
+  if (settingsBtn) settingsBtn.addEventListener(evt, showSettings);
 });
 
 // Close settings
-settingsClose.addEventListener('click', hideSettings);
-settingsClose.addEventListener('keyup', (e) => { if (e.key === 'Enter') hideSettings(); });
+if (settingsClose) settingsClose.addEventListener('click', hideSettings);
+if (settingsClose) settingsClose.addEventListener('keyup', (e) => { if (e.key === 'Enter') hideSettings(); });
 
 // Close on Escape
 document.addEventListener('keydown', (e) => {
@@ -351,7 +370,7 @@ document.addEventListener('keydown', (e) => {
 // Close when clicking outside the panel (but not when clicking the settings button)
 document.addEventListener('click', (e) => {
   if (!settingsOpen) return;
-  const isInside = settingsPanel.contains(e.target) || settingsBtn.contains(e.target);
+  const isInside = settingsPanel.contains(e.target) || (settingsBtn && settingsBtn.contains(e.target));
   if (!isInside) hideSettings();
 });
 

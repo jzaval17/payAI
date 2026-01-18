@@ -279,6 +279,15 @@ card.className = `fake-card ${savedTheme}`;
 document.getElementById(`theme-${savedTheme}`).classList.add('active');
 document.getElementById('sound-toggle').checked = soundEnabled;
 
+// Live preview for amount input
+amountInput.addEventListener('input', () => {
+  const val = amountInput.value.trim();
+  if (val) {
+    overlayAmount.textContent = '$' + val;
+    localStorage.setItem('prankpay-amount', val); // Save on change
+  }
+});
+
 // Ensure settings panel is hidden on load
 settingsPanel.style.display = 'none';
 
@@ -301,8 +310,10 @@ settingsClose.addEventListener('click', () => {
 randomizeAmount.addEventListener('click', () => {
   const dollars = Math.floor(Math.random() * 1000) + 1; // 1-1000
   const cents = Math.floor(Math.random() * 100); // 0-99
-  const amount = `$${dollars}.${cents.toString().padStart(2, '0')}`;
+  const amount = `${dollars}.${cents.toString().padStart(2, '0')}`;
   amountInput.value = amount;
+  overlayAmount.textContent = '$' + amount; // Update preview
+  localStorage.setItem('prankpay-amount', amount); // Save immediately
 });
 
 // Theme switching

@@ -258,12 +258,15 @@ const randomizeAmount = document.getElementById('randomize-amount');
 const themeBtns = document.querySelectorAll('.theme-btn');
 
 // Load saved settings
-const savedAmount = localStorage.getItem('prankpay-amount') || '$50.00';
+const savedAmount = localStorage.getItem('prankpay-amount') || '$20.00';
 const savedTheme = localStorage.getItem('prankpay-theme') || 'pear';
 overlayAmount.textContent = savedAmount;
 amountInput.value = savedAmount;
 card.className = `fake-card ${savedTheme}`;
 document.getElementById(`theme-${savedTheme}`).classList.add('active');
+
+// Ensure settings panel is hidden on load
+settingsPanel.hidden = true;
 
 // Show settings
 settingsBtn.addEventListener('click', () => {

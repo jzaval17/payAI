@@ -149,6 +149,15 @@ function triggerTilt() {
 async function handleTap() {
   // If settings are open, block the main tap action
   if (typeof settingsOpen !== 'undefined' && settingsOpen) return;
+  // Small haptic feedback on supported devices/browsers
+  try {
+    if (navigator && typeof navigator.vibrate === 'function') {
+      // short, subtle buzz
+      navigator.vibrate(30);
+    }
+  } catch (e) {
+    // ignore if vibration API unavailable or throws
+  }
   triggerTilt();
   // Play sound and wait for it (or for min timeout) before navigating so it's not cut off
   try {

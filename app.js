@@ -179,7 +179,7 @@ window.addEventListener('keydown', (e) => {
 // Register service worker for PWA (registered here instead of inline in index.html)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
+    navigator.serviceWorker.register('./service-worker.js')
       .then(reg => {
         console.log('Service worker registered from app.js:', reg.scope);
 

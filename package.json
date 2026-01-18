@@ -4,9 +4,12 @@
   "description": "Parody Wallet packaged as an Electron desktop app",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "serve": "http-server . -p 8080 -c-1",
+    "tunnel": "npx localtunnel --port 8080"
   },
   "devDependencies": {
-    "electron": "^25.0.0"
+    "electron": "^25.0.0",
+    "http-server": "^14.1.1"
   }
 }

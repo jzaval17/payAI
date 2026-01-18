@@ -333,7 +333,6 @@ if (settingsBackdrop) settingsBackdrop.classList.remove('open');
 function showSettings(event) {
   if (event) {
     event.stopPropagation();
-    event.preventDefault();
   }
   settingsPanel.classList.add('open');
   settingsPanel.setAttribute('aria-hidden', 'false');
@@ -353,10 +352,8 @@ function hideSettings() {
   settingsBtn.focus();
 }
 
-// Wire up openers (handle click/touch/pointer)
-['click', 'touchstart', 'pointerdown'].forEach(evt => {
-  if (settingsBtn) settingsBtn.addEventListener(evt, showSettings);
-});
+// Wire up opener: use click to avoid passive touch listener issues on mobile browsers
+if (settingsBtn) settingsBtn.addEventListener('click', showSettings);
 
 // Close settings
 if (settingsClose) settingsClose.addEventListener('click', hideSettings);

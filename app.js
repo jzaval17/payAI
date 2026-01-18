@@ -279,6 +279,12 @@ card.className = `fake-card ${savedTheme}`;
 document.getElementById(`theme-${savedTheme}`).classList.add('active');
 document.getElementById('sound-toggle').checked = soundEnabled;
 
+// Sound toggle change
+document.getElementById('sound-toggle').addEventListener('change', () => {
+  soundEnabled = document.getElementById('sound-toggle').checked;
+  localStorage.setItem('prankpay-sound', soundEnabled);
+});
+
 // Live preview for amount input
 amountInput.addEventListener('input', () => {
   const val = amountInput.value.trim();
@@ -323,6 +329,7 @@ themeBtns.forEach(btn => {
     themeBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     card.className = `fake-card ${theme}`;
+    localStorage.setItem('prankpay-theme', theme); // Save immediately
   });
 });
 
@@ -330,12 +337,8 @@ themeBtns.forEach(btn => {
 saveSettings.addEventListener('click', () => {
   const newAmount = amountInput.value.trim();
   if (newAmount) {
-    overlayAmount.textContent = '$' + newAmount;
     localStorage.setItem('prankpay-amount', newAmount);
   }
-  const activeTheme = document.querySelector('.theme-btn.active').id.replace('theme-', '');
-  localStorage.setItem('prankpay-theme', activeTheme);
-  soundEnabled = document.getElementById('sound-toggle').checked;
-  localStorage.setItem('prankpay-sound', soundEnabled);
+  // Theme and sound already saved on change
   settingsPanel.style.display = 'none';
 });

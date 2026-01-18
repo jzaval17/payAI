@@ -303,7 +303,8 @@ window.addEventListener('load', () => {
 });
 
 // Show settings
-settingsBtn.addEventListener('click', () => {
+settingsBtn.addEventListener('click', (event) => {
+  event.stopPropagation();
   settingsPanel.style.display = 'flex';
 });
 

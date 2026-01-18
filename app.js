@@ -305,10 +305,17 @@ window.addEventListener('load', () => {
 // Show settings
 settingsBtn.addEventListener('click', (event) => {
   event.stopPropagation();
+  event.preventDefault();
   settingsPanel.style.display = 'flex';
 });
 
 settingsBtn.addEventListener('touchstart', (event) => {
+  event.stopPropagation();
+  event.preventDefault();
+  settingsPanel.style.display = 'flex';
+});
+
+settingsBtn.addEventListener('pointerdown', (event) => {
   event.stopPropagation();
   event.preventDefault();
   settingsPanel.style.display = 'flex';

@@ -247,3 +247,60 @@ if (installBtn) {
     deferredPrompt = null;
   });
 }
+
+// Settings functionality
+const settingsBtn = document.getElementById('settings-btn');
+const settingsPanel = document.getElementById('settings-panel');
+const settingsClose = document.getElementById('settings-close');
+const amountInput = document.getElementById('amount-input');
+const saveSettings = document.getElementById('save-settings');
+const randomizeAmount = document.getElementById('randomize-amount');
+const themeBtns = document.querySelectorAll('.theme-btn');
+
+// Load saved settings
+const savedAmount = localStorage.getItem('prankpay-amount') || '$50.00';
+const savedTheme = localStorage.getItem('prankpay-theme') || 'pear';
+overlayAmount.textContent = savedAmount;
+amountInput.value = savedAmount;
+card.className = `fake-card ${savedTheme}`;
+document.getElementById(`theme-${savedTheme}`).classList.add('active');
+
+// Show settings
+settingsBtn.addEventListener('click', () => {
+  settingsPanel.hidden = false;
+});
+
+// Close settings
+settingsClose.addEventListener('click', () => {
+  settingsPanel.hidden = true;
+});
+
+// Randomize amount
+randomizeAmount.addEventListener('click', () => {
+  const dollars = Math.floor(Math.random() * 1000) + 1; // 1-1000
+  const cents = Math.floor(Math.random() * 100); // 0-99
+  const amount = `$${dollars}.${cents.toString().padStart(2, '0')}`;
+  amountInput.value = amount;
+});
+
+// Theme switching
+themeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const theme = btn.id.replace('theme-', '');
+    themeBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    card.className = `fake-card ${theme}`;
+  });
+});
+
+// Save settings
+saveSettings.addEventListener('click', () => {
+  const newAmount = amountInput.value.trim();
+  if (newAmount) {
+    overlayAmount.textContent = newAmount;
+    localStorage.setItem('prankpay-amount', newAmount);
+  }
+  const activeTheme = document.querySelector('.theme-btn.active').id.replace('theme-', '');
+  localStorage.setItem('prankpay-theme', activeTheme);
+  settingsPanel.hidden = true;
+});

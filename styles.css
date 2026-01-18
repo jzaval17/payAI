@@ -379,3 +379,127 @@ body {
   height: 90px;
   overflow: visible;
 }
+
+/* Settings Button */
+.settings-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Settings Panel */
+.settings-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.settings-panel h3 {
+  margin-bottom: 20px;
+}
+
+.settings-panel label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.settings-panel input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 200px;
+}
+
+.settings-panel button {
+  padding: 10px 20px;
+  background: #b11220;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.settings-panel button:hover {
+  background: #8f0e1b;
+}
+
+.settings-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* Theme Buttons */
+.theme-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.theme-btn {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.theme-btn.active {
+  background: #b11220;
+  border-color: #b11220;
+}
+
+.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Card Themes */
+.fake-card.pear {
+  background: linear-gradient(135deg, #b11220 0%, #8f0e1b 100%);
+  color: #ffd700;
+}
+
+.fake-card.visa {
+  background: linear-gradient(135deg, #1a1f71 0%, #0d1238 100%);
+  color: #ffffff;
+}
+
+.fake-card.mastercard {
+  background: linear-gradient(135deg, #eb001b 0%, #f79e1b 50%, #ff5f00 100%);
+  color: #ffffff;
+}
+
+.fake-card.amex {
+  background: linear-gradient(135deg, #006fcf 0%, #004a87 100%);
+  color: #ffffff;
+}

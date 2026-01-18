@@ -42,7 +42,27 @@
     <div class="home-indicator"></div>
 
     <div class="tap-area" id="tap-area" role="button" tabindex="0"></div>
-  </main>
+  <!-- Settings Panel -->
+  <div id="settings-panel" class="settings-panel" hidden>
+    <button id="settings-close" class="settings-close" aria-label="Close Settings">×</button>
+    <h3>Settings</h3>
+    <label for="amount-input">Payment Amount:</label>
+    <input type="text" id="amount-input" value="$50.00" placeholder="$50.00">
+    <button id="randomize-amount">Randomize Amount</button>
+    <br><br>
+    <label>Card Theme:</label>
+    <div class="theme-buttons">
+      <button id="theme-pear" class="theme-btn active">Pear</button>
+      <button id="theme-visa" class="theme-btn">Visa</button>
+      <button id="theme-mastercard" class="theme-btn">Mastercard</button>
+      <button id="theme-amex" class="theme-btn">Amex</button>
+    </div>
+    <br>
+    <button id="save-settings">Save</button>
+  </div>
+
+  <!-- Settings Button -->
+  <button id="settings-btn" class="settings-btn" aria-label="Open Settings">⚙️</button>  </main>
 
   <!-- Overlay -->
   <div id="overlay" class="overlay" hidden>

@@ -258,29 +258,29 @@ const randomizeAmount = document.getElementById('randomize-amount');
 const themeBtns = document.querySelectorAll('.theme-btn');
 
 // Load saved settings
-const savedAmount = localStorage.getItem('prankpay-amount') || '$20.00';
+const savedAmount = localStorage.getItem('prankpay-amount') || '20.00';
 const savedTheme = localStorage.getItem('prankpay-theme') || 'pear';
-overlayAmount.textContent = savedAmount;
+overlayAmount.textContent = '$' + savedAmount;
 amountInput.value = savedAmount;
 card.className = `fake-card ${savedTheme}`;
 document.getElementById(`theme-${savedTheme}`).classList.add('active');
 
 // Ensure settings panel is hidden on load
-settingsPanel.hidden = true;
+settingsPanel.style.display = 'none';
 
 // Force hide on window load
 window.addEventListener('load', () => {
-  settingsPanel.hidden = true;
+  settingsPanel.style.display = 'none';
 });
 
 // Show settings
 settingsBtn.addEventListener('click', () => {
-  settingsPanel.hidden = false;
+  settingsPanel.style.display = 'flex';
 });
 
 // Close settings
 settingsClose.addEventListener('click', () => {
-  settingsPanel.hidden = true;
+  settingsPanel.style.display = 'none';
 });
 
 // Randomize amount
@@ -305,10 +305,10 @@ themeBtns.forEach(btn => {
 saveSettings.addEventListener('click', () => {
   const newAmount = amountInput.value.trim();
   if (newAmount) {
-    overlayAmount.textContent = newAmount;
+    overlayAmount.textContent = '$' + newAmount;
     localStorage.setItem('prankpay-amount', newAmount);
   }
   const activeTheme = document.querySelector('.theme-btn.active').id.replace('theme-', '');
   localStorage.setItem('prankpay-theme', activeTheme);
-  settingsPanel.hidden = true;
+  settingsPanel.style.display = 'none';
 });

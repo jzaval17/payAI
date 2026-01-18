@@ -261,8 +261,8 @@ if (installBtn) {
   });
 }
 
-// Share app
-const shareApp = document.getElementById('share-app');
+// Share apps
+// `shareApp` variable was declared earlier; reuse it here
 shareApp.addEventListener('click', () => {
   const url = window.location.href;
   const text = 'Check out this fun PrankPay app!';

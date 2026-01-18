@@ -4,6 +4,16 @@ const overlayAmount = document.getElementById('overlay-amount');
 const card = document.querySelector('.fake-card');
 const confettiContainer = overlay.querySelector('.confetti');
 
+// Settings and controls (declare DOM handles up-front to avoid runtime errors)
+const settingsBtn = document.getElementById('settings-btn');
+const settingsPanel = document.getElementById('settings-panel');
+const settingsClose = document.getElementById('settings-close');
+const amountInput = document.getElementById('amount-input');
+const saveSettings = document.getElementById('save-settings');
+const randomizeAmount = document.getElementById('randomize-amount');
+const themeBtns = document.querySelectorAll('.theme-btn');
+const shareApp = document.getElementById('share-app');
+
 // Prevent the entrance animation from replaying on subsequent DOM changes.
 // When the initial 'slideInCard' animation ends, turn off the animation property so
 // later class toggles (tilt, ripple) won't cause the card to 'load up' again.

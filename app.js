@@ -23,6 +23,7 @@ window.addEventListener('load', () => {
 
 let audio;
 function playChaChing() {
+  if (!soundEnabled) return;
   if (!audio) {
     // Path is relative to your index.html
     audio = new Audio('assets/sounds/payment.mp3');
@@ -248,22 +249,35 @@ if (installBtn) {
   });
 }
 
-// Settings functionality
-const settingsBtn = document.getElementById('settings-btn');
-const settingsPanel = document.getElementById('settings-panel');
-const settingsClose = document.getElementById('settings-close');
-const amountInput = document.getElementById('amount-input');
-const saveSettings = document.getElementById('save-settings');
-const randomizeAmount = document.getElementById('randomize-amount');
-const themeBtns = document.querySelectorAll('.theme-btn');
+// Share app
+const shareApp = document.getElementById('share-app');
+shareApp.addEventListener('click', () => {
+  const url = window.location.href;
+  const text = 'Check out this fun PrankPay app!';
+  if (navigator.share) {
+    navigator.share({
+      title: 'PrankPay',
+      text: text,
+      url: url
+    });
+  } else {
+    // Fallback: copy to clipboard
+    navigator.clipboard.writeText(url).then(() => {
+      alert('Link copied to clipboard!');
+    });
+  }
+});
 
 // Load saved settings
 const savedAmount = localStorage.getItem('prankpay-amount') || '20.00';
 const savedTheme = localStorage.getItem('prankpay-theme') || 'pear';
+const savedSound = localStorage.getItem('prankpay-sound') !== 'false'; // default true
+let soundEnabled = savedSound;
 overlayAmount.textContent = '$' + savedAmount;
 amountInput.value = savedAmount;
 card.className = `fake-card ${savedTheme}`;
 document.getElementById(`theme-${savedTheme}`).classList.add('active');
+document.getElementById('sound-toggle').checked = soundEnabled;
 
 // Ensure settings panel is hidden on load
 settingsPanel.style.display = 'none';
@@ -310,5 +324,7 @@ saveSettings.addEventListener('click', () => {
   }
   const activeTheme = document.querySelector('.theme-btn.active').id.replace('theme-', '');
   localStorage.setItem('prankpay-theme', activeTheme);
+  soundEnabled = document.getElementById('sound-toggle').checked;
+  localStorage.setItem('prankpay-sound', soundEnabled);
   settingsPanel.style.display = 'none';
 });

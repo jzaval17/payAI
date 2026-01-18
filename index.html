@@ -47,25 +47,27 @@
 
   <!-- Settings Panel -->
   <div id="settings-panel" class="settings-panel" aria-hidden="true" role="dialog" aria-modal="true">
-    <button id="settings-close" class="settings-close" aria-label="Close Settings">×</button>
-    <h3>Settings</h3>
-    <label for="amount-input">Payment Amount ($):</label>
-    <input type="number" id="amount-input" min="0" step="0.01" placeholder="20.00">
-    <button id="randomize-amount">Randomize Amount</button>
-    <br><br>
-    <label><input type="checkbox" id="sound-toggle"> Enable Sound</label>
-    <br><br>
-    <button id="share-app">Share App</button>
-    <br><br>
-    <label>Card Theme:</label>
-    <div class="theme-buttons">
-      <button id="theme-pear" class="theme-btn active">Pear</button>
-      <button id="theme-visa" class="theme-btn">Visa</button>
-      <button id="theme-mastercard" class="theme-btn">Mastercard</button>
-      <button id="theme-amex" class="theme-btn">Amex</button>
+    <div class="settings-inner">
+      <button id="settings-close" class="settings-close" aria-label="Close Settings">×</button>
+      <h3>Settings</h3>
+      <label for="amount-input">Payment Amount ($):</label>
+      <input type="number" id="amount-input" min="0" step="0.01" placeholder="20.00">
+      <button id="randomize-amount">Randomize Amount</button>
+      <br>
+      <label><input type="checkbox" id="sound-toggle"> Enable Sound</label>
+      <br>
+      <button id="share-app">Share App</button>
+      <br>
+      <label>Card Theme:</label>
+      <div class="theme-buttons">
+        <button id="theme-pear" class="theme-btn active">Pear</button>
+        <button id="theme-visa" class="theme-btn">Visa</button>
+        <button id="theme-mastercard" class="theme-btn">Mastercard</button>
+        <button id="theme-amex" class="theme-btn">Amex</button>
+      </div>
+      <br>
+      <button id="save-settings">Save</button>
     </div>
-    <br>
-    <button id="save-settings">Save</button>
   </div>
 
   <!-- Settings Button -->

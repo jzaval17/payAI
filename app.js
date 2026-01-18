@@ -158,7 +158,10 @@ async function handleTap() {
   }
 
   // After sound/animation, navigate to receipt
-  const amount = '$20.00';
+  // Read saved amount from localStorage (saved as e.g. '20.00') and format
+  const saved = localStorage.getItem('prankpay-amount') || '20.00';
+  const amtNum = Number.parseFloat(saved) || 20.00;
+  const amount = '$' + amtNum.toFixed(2);
   const txid = Math.random().toString(36).slice(2, 12);
   const params = new URLSearchParams({ amount, status: 'Cleared', id: txid });
   // Use replace so the receipt doesn't remain in history stack
@@ -337,7 +340,10 @@ function showSettings(event) {
   settingsPanel.classList.add('open');
   settingsPanel.setAttribute('aria-hidden', 'false');
   settingsBtn.setAttribute('aria-expanded', 'true');
-  if (settingsBackdrop) settingsBackdrop.classList.add('open');
+  if (settingsBackdrop) {
+    settingsBackdrop.removeAttribute('hidden');
+    settingsBackdrop.classList.add('open');
+  }
   settingsOpen = true;
   const first = settingsPanel.querySelector('input, button, [tabindex]');
   if (first) first.focus();
@@ -347,7 +353,10 @@ function hideSettings() {
   settingsPanel.classList.remove('open');
   settingsPanel.setAttribute('aria-hidden', 'true');
   settingsBtn.setAttribute('aria-expanded', 'false');
-  if (settingsBackdrop) settingsBackdrop.classList.remove('open');
+  if (settingsBackdrop) {
+    settingsBackdrop.classList.remove('open');
+    settingsBackdrop.setAttribute('hidden', '');
+  }
   settingsOpen = false;
   settingsBtn.focus();
 }
@@ -399,5 +408,7 @@ saveSettings.addEventListener('click', () => {
     localStorage.setItem('prankpay-amount', newAmount);
   }
   // Theme and sound already saved on change
-  settingsPanel.style.display = 'none';
+  // Update preview and close using the centralized hideSettings
+  overlayAmount.textContent = '$' + (newAmount || localStorage.getItem('prankpay-amount') || '20.00');
+  if (typeof hideSettings === 'function') hideSettings();
 });

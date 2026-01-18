@@ -397,6 +397,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-appearance: none;
 }
 
 .settings-btn:hover {

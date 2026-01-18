@@ -308,6 +308,12 @@ settingsBtn.addEventListener('click', (event) => {
   settingsPanel.style.display = 'flex';
 });
 
+settingsBtn.addEventListener('touchstart', (event) => {
+  event.stopPropagation();
+  event.preventDefault();
+  settingsPanel.style.display = 'flex';
+});
+
 // Close settings
 settingsClose.addEventListener('click', () => {
   settingsPanel.style.display = 'none';

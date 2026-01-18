@@ -268,6 +268,11 @@ document.getElementById(`theme-${savedTheme}`).classList.add('active');
 // Ensure settings panel is hidden on load
 settingsPanel.hidden = true;
 
+// Force hide on window load
+window.addEventListener('load', () => {
+  settingsPanel.hidden = true;
+});
+
 // Show settings
 settingsBtn.addEventListener('click', () => {
   settingsPanel.hidden = false;

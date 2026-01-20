@@ -64,6 +64,11 @@ body {
   text-align: center;
   padding: 8px 12px;
   box-sizing: border-box;
+  animation: disclaimerFadeIn 0.6s ease-out forwards;
+}
+@keyframes disclaimerFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* On small phones leave more room above the home indicator */

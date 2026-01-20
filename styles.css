@@ -53,6 +53,19 @@ body {
   color: rgba(255,255,255,0.9);
 }
 
+/* disclaimer footer */
+.disclaimer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  color: #ccc;
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 8px 12px;
+  box-sizing: border-box;
+}
+
 /* Card brand (DEBIT / VISA) on the right side */
 .card-brand {
   position: absolute;

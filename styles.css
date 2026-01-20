@@ -56,7 +56,7 @@ body {
 /* disclaimer footer */
 .disclaimer {
   position: fixed;
-  bottom: calc(15px + env(safe-area-inset-bottom));
+  bottom: calc(34px + env(safe-area-inset-bottom));
   width: 100%;
   background: rgba(0, 0, 0, 0.85);
   color: #ccc;
@@ -64,6 +64,11 @@ body {
   text-align: center;
   padding: 8px 12px;
   box-sizing: border-box;
+}
+
+/* On small phones leave more room above the home indicator */
+@media (max-width: 420px) {
+  .disclaimer { bottom: calc(56px + env(safe-area-inset-bottom)); }
 }
 
 /* Card brand (DEBIT / VISA) on the right side */

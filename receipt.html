@@ -37,7 +37,12 @@
     </section>
   </main>
 
-  <script>
+    <!-- Disclaimer -->
+    <footer class="disclaimer">
+      <p>PrankPay is a parody app for entertainment purposes only. It does not process real payments or store sensitive information. Always use official payment methods for real transactions.</p>
+    </footer>
+
+    <script>
     // Read URL params and populate the receipt
     const params = new URLSearchParams(location.search);
     const amount = params.get('amount') || '$20.00';
